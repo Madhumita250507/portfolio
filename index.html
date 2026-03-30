@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madhumita .M | Portfolio</title>
+    <style>
+        /* Two Colors Only: Charcoal (#1a1a1a) and Teal (#00cec9) */
+        body {
+            margin: 0; padding: 0; background-color: #1a1a1a; color: #ffffff;
+            font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 80px 20px; }
+
+        /* Header Section */
+        header { border-bottom: 1px solid #333; padding-bottom: 40px; margin-bottom: 60px; display: flex; align-items: center; gap: 30px; }
+        .pfp { width: 120px; height: 120px; border: 2px solid #00cec9; border-radius: 4px; object-fit: cover; }
+        h1 { font-size: 2.5rem; margin: 0; letter-spacing: -1px; }
+        .accent { color: #00cec9; }
+
+        /* Content Sections */
+        section { margin-bottom: 60px; }
+        h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: #00cec9; margin-bottom: 25px; }
+        p { font-size: 1.1rem; color: #ccc; max-width: 600px; }
+
+        /* Rich Grid Layout */
+        .rich-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .grid-item h3 { font-size: 1.2rem; margin: 0 0 10px 0; color: #fff; }
+        .grid-item p { font-size: 0.95rem; margin: 0; }
+
+        /* Minimalist Form */
+        form { margin-top: 30px; border-top: 1px solid #333; padding-top: 40px; }
+        input, textarea {
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid #333;
+            padding: 15px 0; color: #fff; font-size: 1rem; margin-bottom: 20px; outline: none; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-bottom: 1px solid #00cec9; }
+        button {
+            background: transparent; border: 1px solid #00cec9; color: #00cec9;
+            padding: 12px 30px; cursor: pointer; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+        }
+        button:hover { background: #00cec9; color: #1a1a1a; }
+        
+        #responseMsg { margin-top: 20px; font-size: 0.9rem; color: #00cec9; }
+
+        @media (max-width: 600px) { .rich-grid { grid-template-columns: 1fr; } header { flex-direction: column; text-align: center; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <img src="image.jpg" alt="Madhumita" class="pfp">
+            <div>
+                <h1>Madhumita <span class="accent">.M</span></h1>
+                <p>2nd Sem Bsc AI & Machine Learning. Student of Tech & Literature.</p>
+            </div>
+        </header>
+
+        <section>
+            <h2>The Profile</h2>
+            <p>Combining the logic of <span class="accent">Artificial Intelligence</span> with the nuance of literature. Currently exploring the intersections of full-stack development and data science at a college level.</p>
+        </section>
+
+        <section>
+            <h2>Technical Stack</h2>
+            <div class="rich-grid">
+                <div class="grid-item">
+                    <h3>Development</h3>
+                    <p>HTML5, CSS3, JavaScript, Node.js, Express.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Data & Logic</h3>
+                    <p>MySQL (TiDB), MongoDB, C, R Programming.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Academic Projects</h2>
+            <div class="rich-grid">
+                <div class="grid-item">
+                    <h3>Fullstack Portfolio</h3>
+                    <p>A Node.js & TiDB Cloud integration project for Semester 2.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>R Data Visualization</h3>
+                    <p>Exploratory data analysis using R for statistical modeling.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Connect</h2>
+            <p>Send a message directly to my database.</p>
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="YOUR NAME" required>
+                <textarea id="message" rows="3" placeholder="YOUR MESSAGE" required></textarea>
+                <button type="submit">Submit Entry</button>
+                <p id="responseMsg"></p>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const msgBox = document.getElementById('responseMsg');
+            msgBox.innerText = "Processing...";
+            
+            const data = {
+                name: document.getElementById('name').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                const res = await fetch('/api/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    msgBox.innerText = "SUCCESS: MESSAGE RECORDED IN TIDB";
+                    document.getElementById('contactForm').reset();
+                } else {
+                    msgBox.innerText = "ERROR: DATABASE REJECTED REQUEST";
+                }
+            } catch (err) {
+                msgBox.innerText = "ERROR: CONNECTION FAILED";
+            }
+        };
+    </script>
+</body>
+</html>
